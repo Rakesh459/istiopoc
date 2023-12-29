@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: microsservices:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MicroServiceA
+          value: http://microasvc:9000/
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microa
+spec:
+  selector:
+    matchLabels:
+      app: microa
+  template:
+    metadata:
+      labels:
+        app: microa
+    spec:
+      containers:
+      - name: microa
+        image: microa:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MicroServiceB
+          value: http://microbsvc:9000/
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microb
+spec:
+  selector:
+    matchLabels:
+      app: microb
+  template:
+    metadata:
+      labels:
+        app: microb
+    spec:
+      containers:
+      - name: microb
+        image: microb:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microasvc
+spec:
+  selector:
+    app: microa
+  ports:
+  - port: 9000
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microbsvc
+spec:
+  selector:
+    app: microb
+  ports:
+  - port: 9000
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+spec:
+  selector:
+    app: gateway
+  ports:
+  - port: 10023
+    targetPort: 8080
+  type: LoadBalancer
+
+

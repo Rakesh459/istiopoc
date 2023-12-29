@@ -1,0 +1,6 @@
+@MicroB_HostAddress = http://localhost:5275
+
+GET {{MicroB_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

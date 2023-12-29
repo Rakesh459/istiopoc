@@ -1,0 +1,6 @@
+@MicrosServices_HostAddress = https://localhost:7175
+
+GET {{MicrosServices_HostAddress}}/gateway/
+Accept: application/json
+
+###
