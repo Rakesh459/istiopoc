@@ -1,66 +1,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2024-01-12T18:34:36Z"
-  finalizers:
-  - service.kubernetes.io/load-balancer-cleanup
   labels:
     app: istio-ingressgateway
-    install.operator.istio.io/owning-resource: installed-state
-    install.operator.istio.io/owning-resource-namespace: istio-system
-    istio: ingressgateway
-    istio.io/rev: default
-    operator.istio.io/component: IngressGateways
-    operator.istio.io/managed: Reconcile
-    operator.istio.io/version: 1.20.1
-    release: istio
   name: istio-ingressgateway
   namespace: istio-system
-  resourceVersion: "40230"
-  uid: fe1f525b-9fa9-484d-8577-b0b6c9ebe3d3
 spec:
-  allocateLoadBalancerNodePorts: true
-  clusterIP: 10.0.239.220
-  clusterIPs:
-  - 10.0.239.220
-  externalTrafficPolicy: Cluster
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
   ports:
   - name: status-port
-    nodePort: 30280
     port: 15021
     protocol: TCP
     targetPort: 15021
   - name: http2
-    nodePort: 31196
     port: 80
     protocol: TCP
     targetPort: 8080
   - name: http3
-    nodePort: 30043
     port: 8090
     protocol: TCP
     targetPort: 8090
   - name: http4
-    nodePort: 31494
     port: 9000
     protocol: TCP
     targetPort: 9000
   - name: http5
-    nodePort: 32586
     port: 10000
     protocol: TCP
     targetPort: 10000
   - name: http6
-    nodePort: 30828
     port: 11000
     protocol: TCP
     targetPort: 11000
   - name: https
-    nodePort: 31099
     port: 443
     protocol: TCP
     targetPort: 8443
