@@ -1,0 +1,126 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: main-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - app.rakeshtesting.xyz
+    - kiali.rakeshtesting.xyz
+    - prome.rakeshtesting.xyz
+    - trace.rakeshtesting.xyz
+    - grafana.rakeshtesting.xyz
+    port:
+      number: 80
+      name: http
+      protocol: HTTP
+  - hosts:
+    - app.rakeshtesting.xyz
+    - kiali.rakeshtesting.xyz
+    - prome.rakeshtesting.xyz
+    - trace.rakeshtesting.xyz
+    - grafana.rakeshtesting.xyz
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: fleetman-gateway-certificate
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fleetman-webapp
+spec:
+  hosts:
+  - app.rakeshtesting.xyz  
+  gateways:
+  - main-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: fleetman-webapp
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali  
+spec:
+  hosts:
+  - kiali.rakeshtesting.xyz  
+  gateways:
+  - main-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: kiali.istio-system.svc.cluster.local
+        port:
+          number: 20001
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prometheus  
+spec:
+  hosts:
+  - "prome.rakeshtesting.xyz"
+  gateways:
+  - main-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: prometheus.istio-system.svc.cluster.local
+        port:
+          number: 9090
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: trace  
+spec:
+  hosts:
+  - "trace.rakeshtesting.xyz"
+  gateways:
+  - main-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: tracing.istio-system.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana  
+spec:
+  hosts:
+  - "grafana.rakeshtesting.xyz"
+  gateways:
+  - main-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: grafana.istio-system.svc.cluster.local
+        port:
+          number: 3000
