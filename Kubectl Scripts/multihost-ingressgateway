@@ -2,38 +2,44 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: main-gateway
+  namespace: istio-system
 spec:
   selector:
     istio: ingressgateway
   servers:
   - hosts:
-    - app.rakeshtesting.xyz
+    - rakeshtesting.xyz 
+    - app.rakeshtesting.xyz 
     - kiali.rakeshtesting.xyz
     - prome.rakeshtesting.xyz
     - trace.rakeshtesting.xyz
-    - grafana.rakeshtesting.xyz
+    - grafana.rakeshtesting.xyz 
     port:
       number: 80
       name: http
       protocol: HTTP
+    tls:
+      httpsRedirect: true
   - hosts:
-    - app.rakeshtesting.xyz
+    - rakeshtesting.xyz  
+    - app.rakeshtesting.xyz 
     - kiali.rakeshtesting.xyz
     - prome.rakeshtesting.xyz
     - trace.rakeshtesting.xyz
-    - grafana.rakeshtesting.xyz
+    - grafana.rakeshtesting.xyz 
     port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: fleetman-gateway-certificate
+      credentialName: my-tls-secret
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: fleetman-webapp
+  namespace: istio-system
 spec:
   hosts:
   - app.rakeshtesting.xyz  
@@ -45,7 +51,7 @@ spec:
         prefix: "/"
     route:
     - destination:
-        host: fleetman-webapp
+        host: fleetman-webapp.default.svc.cluster.local
         port:
           number: 80
 ---
@@ -53,6 +59,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kiali  
+  namespace: istio-system
 spec:
   hosts:
   - kiali.rakeshtesting.xyz  
@@ -64,14 +71,15 @@ spec:
         prefix: "/"
     route:
     - destination:
-        host: kiali.istio-system.svc.cluster.local
+        host: kiali
         port:
           number: 20001
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: prometheus  
+  name: prometheus 
+  namespace: istio-system
 spec:
   hosts:
   - "prome.rakeshtesting.xyz"
@@ -83,7 +91,7 @@ spec:
         prefix: "/"
     route:
     - destination:
-        host: prometheus.istio-system.svc.cluster.local
+        host: prometheus
         port:
           number: 9090
 ---
@@ -91,6 +99,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: trace  
+  namespace: istio-system
 spec:
   hosts:
   - "trace.rakeshtesting.xyz"
@@ -102,7 +111,7 @@ spec:
         prefix: "/"
     route:
     - destination:
-        host: tracing.istio-system.svc.cluster.local
+        host: tracing
         port:
           number: 80
 ---
@@ -110,6 +119,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: grafana  
+  namespace: istio-system
 spec:
   hosts:
   - "grafana.rakeshtesting.xyz"
@@ -121,6 +131,6 @@ spec:
         prefix: "/"
     route:
     - destination:
-        host: grafana.istio-system.svc.cluster.local
+        host: grafana
         port:
           number: 3000
