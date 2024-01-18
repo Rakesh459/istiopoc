@@ -42,7 +42,7 @@ spec:
   source:
     path: samples/addons
     repoURL: 'https://github.com/Rakesh459/istio.git'
-    targetRevision: HEAD
+    targetRevision: release-1.20
   sources: []
   project: default
   syncPolicy:
