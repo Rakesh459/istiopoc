@@ -12,5 +12,6 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/Rakesh459/istiopoc/
 kubectl rollout restart deployment argocd-server -n argocd
 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/Rakesh459/istiopoc/master/Kubectl%20Scripts/argocd-applications.yaml
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.password}' | base64 --decode
 
 istioctl uninstall --prudge
