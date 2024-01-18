@@ -1,1 +1,2 @@
-
+install ingress-basic and certmanager go through link
+https://learn.microsoft.com/en-us/azure/aks/ingress-basic?tabs=azure-cli
