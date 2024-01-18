@@ -5,3 +5,25 @@ kind: ConfigMap
 metadata:
   name: argocd-cmd-params-cm
   namespace: argocd
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: learn-argocd
+spec:
+  destination:
+    name: ''
+    namespace: default
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: Kubectl Scripts/fleetapplication
+    repoURL: 'https://github.com/Rakesh459/istiopoc.git'
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
