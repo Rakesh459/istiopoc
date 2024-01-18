@@ -1,5 +1,6 @@
 install ingress-basic and certmanager go through link
 https://learn.microsoft.com/en-us/azure/aks/ingress-basic?tabs=azure-cli 
+https://learn.microsoft.com/en-us/azure/aks/ingress-tls?tabs=azure-cli
 and deploy below yaml to get site up and running
 
 apiVersion: apps/v1
