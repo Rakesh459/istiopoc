@@ -8,12 +8,12 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - rakeshtesting.xyz 
     - app.rakeshtesting.xyz 
     - kiali.rakeshtesting.xyz
     - prome.rakeshtesting.xyz
     - trace.rakeshtesting.xyz
     - grafana.rakeshtesting.xyz 
+    - argo.rakeshtesting.xyz 
     port:
       number: 80
       name: http
@@ -21,12 +21,12 @@ spec:
     tls:
       httpsRedirect: true
   - hosts:
-    - rakeshtesting.xyz  
     - app.rakeshtesting.xyz 
     - kiali.rakeshtesting.xyz
     - prome.rakeshtesting.xyz
     - trace.rakeshtesting.xyz
     - grafana.rakeshtesting.xyz 
+    - argo.rakeshtesting.xyz 
     port:
       number: 443
       name: https
