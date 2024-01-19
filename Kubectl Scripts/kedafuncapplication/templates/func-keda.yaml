@@ -11,6 +11,6 @@ spec:
   - type: azure-queue
     metadata:
       queueName: testqueue
-      queueLength: '5'
+      queueLength: '3'
       connectionFromEnv: QueueCS
       cloud: AzurePublicCloud
