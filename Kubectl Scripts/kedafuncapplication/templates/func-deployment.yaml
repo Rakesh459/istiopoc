@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: func-app
+  labels:
+    {{- include "func-labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.funcapp.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "func-labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+      {{- include "func-labels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: func-app
+        image: {{ .Values.funcapp.image }}
+        envFrom:
+        - secretRef:
+            name: func-secret 
+        ports:
+        - containerPort: 80

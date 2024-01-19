@@ -1,0 +1,16 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: azure-queue-scaledobject
+spec:
+  scaleTargetRef:
+    name: {{ .Values.funcapp.appname }}
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+  - type: azure-queue
+    metadata:
+      queueName: testqueue
+      queueLength: '5'
+      connectionFromEnv: QueueCS
+      cloud: AzurePublicCloud
