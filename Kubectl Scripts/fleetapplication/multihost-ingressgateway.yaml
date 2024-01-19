@@ -15,6 +15,7 @@ spec:
     - grafana.rakeshtesting.xyz 
     - argo.rakeshtesting.xyz 
     - bookstore.rakeshtesting.xyz 
+    - keda.rakeshtesting.xyz 
     port:
       number: 80
       name: http
@@ -28,7 +29,8 @@ spec:
     - trace.rakeshtesting.xyz
     - grafana.rakeshtesting.xyz 
     - argo.rakeshtesting.xyz 
-    - bookstore.rakeshtesting.xyz 
+    - bookstore.rakeshtesting.xyz
+    - keda.rakeshtesting.xyz 
     port:
       number: 443
       name: https
@@ -154,5 +156,25 @@ spec:
     route:
     - destination:
         host: argocd-server.argocd.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: keda  
+  namespace: istio-system
+spec:
+  hosts:
+  - "keda.rakeshtesting.xyz"
+  gateways:
+  - main-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: func-svc.default.svc.cluster.local
         port:
           number: 80
