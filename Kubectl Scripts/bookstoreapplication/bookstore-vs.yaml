@@ -5,15 +5,23 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "argo.rakeshtesting.xyz"
+  - "bookstore.rakeshtesting.xyz"
   gateways:
   - main-gateway
   http:
   - match:
     - uri:
-        prefix: "/"
+        exact: /productpage
+    - uri:
+        prefix: /static
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    - uri:
+        prefix: /api/v1/products
     route:
     - destination:
-        host: argocd-server.argocd.svc.cluster.local
+        host: productpage
         port:
-          number: 80
+          number: 9080
